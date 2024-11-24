@@ -23,7 +23,7 @@ export const updateUser = async (clerkId: string, user: UpdateUserParams) => {
 		await connectToDatabase();
 
 		// Update the user
-		const updatedUser = await User.findByIdAndUpdate({ clerkId }, user, {
+		const updatedUser = await User.findOneAndUpdate({ clerkId }, user, {
 			new: true,
 		});
 
@@ -37,7 +37,6 @@ export const updateUser = async (clerkId: string, user: UpdateUserParams) => {
 	}
 };
 
-
 export const deletedUser = async (clerkId: string) => {
 	try {
 		await connectToDatabase();
@@ -48,8 +47,6 @@ export const deletedUser = async (clerkId: string) => {
 		if (!userNeedToDelete) {
 			throw new Error("User not found");
 		}
-
-    
 	} catch (error) {
 		handleError(error);
 	}
