@@ -14,9 +14,12 @@
 	@apply bg-blue-100;
 }
 
-@layer base {
-  :root {
+.hoverScaleShadow {
+	@apply hover:scale-105 hover:shadow-md transition-all;
+}
 
+@layer base {
+	:root {
 		--background: 0 0% 100%;
 
 		--foreground: 240 10% 3.9%;
@@ -65,10 +68,9 @@
 
 		--chart-5: 27 87% 67%;
 
-		--radius: 0.5rem
+		--radius: 0.5rem;
 	}
-  .dark {
-
+	.dark {
 		--background: 240 10% 3.9%;
 
 		--foreground: 0 0% 98%;
@@ -115,15 +117,15 @@
 
 		--chart-4: 280 65% 60%;
 
-		--chart-5: 340 75% 55%
+		--chart-5: 340 75% 55%;
 	}
 }
 
 @layer base {
-  * {
-    @apply border-border;
+	* {
+		@apply border-border;
 	}
-  body {
-    @apply bg-background text-foreground;
+	body {
+		@apply bg-background text-foreground;
 	}
 }
