@@ -2,11 +2,12 @@
 
 import { CreateTourParams, UpdateTourParams } from "@/types";
 import { connectToDatabase } from "../db";
-import Tour, { ITour } from "../db/models/tour.model";
+import Tour from "../db/models/tour.model";
 import User from "../db/models/user.model";
 import { handleError } from "../utils";
 import { revalidatePath } from "next/cache";
 import Location from "../db/models/location.model";
+import Depart from "../db/models/depart.model";
 
 // Get all tour
 export const getAllTour = async () => {
@@ -25,7 +26,9 @@ export const getTourById = async (tourId: string) => {
 	try {
 		await connectToDatabase();
 
-		const tour = await Tour.findById(tourId);
+		const tour = await Tour.findById(tourId)
+			.populate("depart")
+			.populate("location");
 
 		return JSON.parse(JSON.stringify(tour));
 	} catch (error) {
@@ -55,13 +58,13 @@ export const createTour = async ({ userId, tour, path }: CreateTourParams) => {
 
 		const user = await User.findById(userId);
 		const location = await Location.findById(tour.locationId);
-		const depart = await Location.findById(tour.departId);
+		const depart = await Depart.findById(tour.departId);
 
-		if (!user) throw new Error("User not found");
+		if (!user) return new Error("User not found");
 
-		if (!location) throw new Error("Location not found");
+		if (!location) return new Error("Location not found");
 
-		if (!depart) throw new Error("Departure location not found");
+		if (!depart) return new Error("Departure location not found");
 
 		const newTour = await Tour.create({
 			...tour,
@@ -83,12 +86,13 @@ export const updateTour = async ({
 	userId,
 	tour,
 	tourId,
-	path,
 }: UpdateTourParams) => {
 	try {
 		await connectToDatabase();
 
 		const tourToUpdate = await Tour.findById(tourId);
+		const location = await Location.findById(tour.locationId);
+		const depart = await Depart.findById(tour.departId);
 
 		if (!tourToUpdate) throw new Error("Tour not found");
 
@@ -99,12 +103,11 @@ export const updateTour = async ({
 			tourId,
 			{
 				...tour,
-				location: tour.locationId,
-				depart: tour.departId,
+				location: location._id,
+				depart: depart._id,
 			},
 			{ new: true }
 		);
-		revalidatePath(path);
 
 		return JSON.parse(JSON.stringify(updatedTour));
 	} catch (error) {

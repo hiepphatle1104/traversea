@@ -41,7 +41,6 @@ export interface UpdateTourParams {
 	userId: string;
 	tour: TourProps;
 	tourId: string;
-	path: string;
 }
 
 export interface TourFormProps {

@@ -1,33 +1,26 @@
-import TourDetailHeader from "@/components/shared/TourDetailHeader";
 import { Button } from "@/components/ui/button";
+import { getTourById } from "@/lib/actions/tour.actions";
+import { getUser } from "@/lib/actions/user.actions";
 import { convertImageUrl } from "@/lib/utils";
+import { auth } from "@clerk/nextjs/server";
+import { format } from "date-fns";
 import { Clock, Heart, MapPin, Share, Tag } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
-const TourDetailPage = () => {
-	const tour = {
-		_id: "testid",
-		title: "Bali - Nusa Penida",
-		location: {
-			_id: "testid",
-			name: "Bali, Indonesia",
-		},
-		category: "Aboard",
-		imagesUrl:
-			"https://plus.unsplash.com/premium_photo-1732564236763-2eaab170bf97?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+const TourDetailPage = async ({
+	params,
+}: {
+	params: Promise<{ id: string }>;
+}) => {
+	const { id } = await params;
+	const { sessionClaims } = await auth();
 
-		price: 100,
-		seats: 10,
-		days: 5,
-		nights: 4,
-		description: "test description",
-		depart: {
-			_id: "testid",
-			name: "TP. Ho Chi Minh",
-		},
-		startDate: "12/12/2024",
-		endDate: "15/12/2024",
-	};
+	const userId = sessionClaims?.userId as string;
+
+	const user = await getUser(userId);
+
+	const tour = await getTourById(id);
 	return (
 		<div className="wrapper">
 			<section className="wrapper py-5 space-y-5">
@@ -61,7 +54,7 @@ const TourDetailPage = () => {
 							</section>
 						</div>
 
-						{/* Share & Save */}
+						{/* Share & Save & Update */}
 						<div className="flex gap-4 max-lg:hidden">
 							{/* Save */}
 							<section className="detail_icon">
@@ -74,19 +67,25 @@ const TourDetailPage = () => {
 								<Share size={18} />
 								<p>Share</p>
 							</section>
+
+							{user?._id === tour.provider && (
+								<Button variant={"outline"} size={"sm"} asChild>
+									<Link href={`/tours/${tour._id}/update`}>Update</Link>
+								</Button>
+							)}
 						</div>
 					</section>
 				</div>
 
 				{/* Content */}
 				<div className="py-5 flex justify-between gap-10">
-					<section className="h-[350px] w-full">
+					<section className="h-[350px] w-full rounded-lg border shadow-md">
 						<Image
-							src={convertImageUrl(tour.imagesUrl)}
+							src={convertImageUrl(tour.imageUrl)}
 							alt="Image"
 							width={900}
 							height={900}
-							className="imageCover "
+							className="imageCover rounded-lg"
 						/>
 					</section>
 
@@ -111,10 +110,10 @@ const TourDetailPage = () => {
 									<p>Depart - {tour.depart.name}</p>
 
 									{/* Start date */}
-									<p>Start: {tour.startDate}</p>
+									<p>Start: {format(tour.startDate, "dd/MM/yyyy")}</p>
 
 									{/* End date */}
-									<p>End: {tour.endDate}</p>
+									<p>End: {format(tour.endDate, "dd/MM/yyyy")}</p>
 								</section>
 							</div>
 

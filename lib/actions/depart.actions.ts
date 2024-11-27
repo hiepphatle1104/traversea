@@ -29,3 +29,15 @@ export const createDepart = async (departName: string) => {
 		handleError(error);
 	}
 };
+
+export const getDepartById = async (departId: string) => {
+	try {
+		await connectToDatabase();
+
+		const depart = await Depart.findById(departId);
+
+		return JSON.parse(JSON.stringify(depart));
+	} catch (error) {
+		handleError(error);
+	}
+};

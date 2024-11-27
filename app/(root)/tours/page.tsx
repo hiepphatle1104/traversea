@@ -63,11 +63,11 @@ const ToursPage = () => {
 				<div>
 					{(loading && <div>Loading...</div>) || (
 						<>
-							{tours.map((tour) => (
-								<div key={tour._id}>
-									<TourCard tour={tour} />
-								</div>
-							))}
+							<div className="w-full flex gap-5 flex-wrap justify-center items-center">
+								{tours.map((tour) => (
+									<TourCard key={tour._id} tour={tour} />
+								))}
+							</div>
 						</>
 					)}
 				</div>

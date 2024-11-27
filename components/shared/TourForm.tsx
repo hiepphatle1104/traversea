@@ -26,16 +26,20 @@ import { Input } from "@/components/ui/input";
 import { initialDefault } from "@/constants";
 import { tourForm } from "@/lib/validator";
 import { TourFormProps } from "@/types";
-import Dropdown from "./Dropdown";
 import { Textarea } from "../ui/textarea";
 import ImageUploader from "./ImageUploader";
-import { useEffect, useState } from "react";
-import Image from "next/image";
+import { useState } from "react";
 import { useEdgeStore } from "@/lib/edgestore";
-import { createTour } from "@/lib/actions/tour.actions";
+import { createTour, updateTour } from "@/lib/actions/tour.actions";
+import CategoryDropdown from "./CategoryDropdown";
+import LocationDropdown from "./LocationDropdown";
+import DepartDropdown from "./DepartDropdown";
+import { useRouter } from "next/navigation";
 
 export function TourForm({ userId, type, tour, tourId }: TourFormProps) {
 	const [file, setFile] = useState<File>();
+	const router = useRouter();
+
 	const { edgestore } = useEdgeStore();
 	const initialValues =
 		type === "update"
@@ -43,8 +47,8 @@ export function TourForm({ userId, type, tour, tourId }: TourFormProps) {
 					...tour,
 					location: tour?.location._id,
 					depart: tour?.depart._id,
-					startDate: tour?.startDate,
-					endDate: tour?.endDate,
+					startDate: new Date(tour?.startDate!),
+					endDate: new Date(tour?.endDate!),
 			  }
 			: initialDefault;
 
@@ -58,19 +62,40 @@ export function TourForm({ userId, type, tour, tourId }: TourFormProps) {
 	async function onSubmit(values: z.infer<typeof tourForm>) {
 		if (!userId) throw new Error("Something went wrong with the user id");
 
-		if (!file) throw new Error("Something went wrong with the image upload");
+		if (type === "update") {
+			if (file) {
+				const res = await edgestore.publicFiles.upload({
+					file,
+					onProgressChange: (progress) => {
+						// you can use this to show a progress bar
+						console.log(progress);
+					},
+				});
+				if (res) values.imageUrl = res.url;
+			}
 
-		if (file) {
-			const res = await edgestore.publicFiles.upload({
-				file,
-				onProgressChange: (progress) => {
-					// you can use this to show a progress bar
-					console.log(progress);
-				},
+			const updatedTour = await updateTour({
+				userId: userId,
+				tour: values,
+				tourId: tourId!,
 			});
-			// you can run some server action or api here
-			// to add the necessary data to your database
-			values.imageUrl = res.url;
+
+			if (updatedTour) console.log(updatedTour);
+
+			router.push("/profile");
+		}
+
+		if (type === "create") {
+			if (file) {
+				const res = await edgestore.publicFiles.upload({
+					file,
+					onProgressChange: (progress) => {
+						// you can use this to show a progress bar
+						console.log(progress);
+					},
+				});
+				if (res) values.imageUrl = res.url;
+			}
 
 			const newTour = await createTour({
 				userId: userId,
@@ -78,9 +103,10 @@ export function TourForm({ userId, type, tour, tourId }: TourFormProps) {
 				path: "/profile",
 			});
 
-			console.log(values);
 			if (newTour) console.log(newTour);
 		}
+
+		console.log(values);
 	}
 
 	return (
@@ -108,8 +134,7 @@ export function TourForm({ userId, type, tour, tourId }: TourFormProps) {
 							<FormItem className="w-full">
 								<FormLabel>Category</FormLabel>
 								<FormControl>
-									<Dropdown
-										type="category"
+									<CategoryDropdown
 										onChangeHandler={field.onChange}
 										value={field.value}
 									/>
@@ -126,8 +151,7 @@ export function TourForm({ userId, type, tour, tourId }: TourFormProps) {
 							<FormItem className="w-full">
 								<FormLabel>Location</FormLabel>
 								<FormControl>
-									<Dropdown
-										type="location"
+									<LocationDropdown
 										onChangeHandler={field.onChange}
 										value={field.value}
 									/>
@@ -204,8 +228,7 @@ export function TourForm({ userId, type, tour, tourId }: TourFormProps) {
 						<FormItem>
 							<FormLabel>Depart</FormLabel>
 							<FormControl>
-								<Dropdown
-									type="depart"
+								<DepartDropdown
 									onChangeHandler={field.onChange}
 									value={field.value}
 								/>
