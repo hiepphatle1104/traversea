@@ -4,7 +4,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 // import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { EdgeStoreProvider } from "@/lib/edgestore";
-import { neobrutalism } from "@clerk/themes";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,11 +18,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<ClerkProvider
-			appearance={{
-				baseTheme: neobrutalism,
-			}}
-		>
+		<ClerkProvider>
 			<html lang="en">
 				<body className={inter.className}>
 					<EdgeStoreProvider>
