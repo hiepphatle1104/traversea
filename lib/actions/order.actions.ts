@@ -55,11 +55,12 @@ export const createOrder = async (order: CreateOrderParams) => {
 			throw new Error("User or tour not found");
 		}
 
-		const newOrder = new Order({
+		const newOrder = Order.create({
 			...order,
 			buyer: buyer._id,
 			tour: tour._id,
 		});
+
 		return JSON.parse(JSON.stringify(newOrder));
 	} catch (error) {
 		handleError(error);
