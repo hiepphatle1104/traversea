@@ -49,3 +49,18 @@ export interface TourFormProps {
 	tour?: ITour;
 	tourId?: string;
 }
+
+export interface CheckoutOrderParams {
+	tourTitle: string;
+	tourId: string;
+	price: number;
+	buyer: string;
+}
+
+export type CreateOrderParams = {
+	stripeId: string;
+	tourId: string;
+	buyerId: string;
+	totalAmount: string;
+	createdAt: Date;
+};

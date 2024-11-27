@@ -67,7 +67,6 @@ export function TourForm({ userId, type, tour, tourId }: TourFormProps) {
 				const res = await edgestore.publicFiles.upload({
 					file,
 					onProgressChange: (progress) => {
-						// you can use this to show a progress bar
 						console.log(progress);
 					},
 				});

@@ -1,3 +1,4 @@
+import CheckoutButton from "@/components/shared/CheckoutButton";
 import { Button } from "@/components/ui/button";
 import { getTourById } from "@/lib/actions/tour.actions";
 import { getUser } from "@/lib/actions/user.actions";
@@ -124,9 +125,7 @@ const TourDetailPage = async ({
 						</div>
 
 						{/* Checkout button */}
-						<Button className="rounded-full w-full shrink-0" size={"lg"}>
-							Book now
-						</Button>
+						<CheckoutButton tour={tour} />
 					</section>
 				</div>
 
