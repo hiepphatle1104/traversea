@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getAllTour } from "@/lib/actions/tour.actions";
@@ -9,11 +11,17 @@ import { useEffect, useState } from "react";
 const ToursPage = () => {
 	// Render tour list
 	const [tours, setTours] = useState<ITour[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		const getTours = async () => {
+			// Add loading state
+			setLoading(true);
+
 			const allTours = await getAllTour();
 			setTours(allTours);
+
+			setLoading(false);
 		};
 
 		getTours();
@@ -52,9 +60,13 @@ const ToursPage = () => {
 
 				{/* Render tour list */}
 				<div>
-					{tours.map((tour) => (
-						<div>{tour.title}</div>
-					))}
+					{(loading && <div>Loading...</div>) || (
+						<>
+							{tours.map((tour) => (
+								<div key={tour._id}>{tour.title}</div>
+							))}
+						</>
+					)}
 				</div>
 			</section>
 		</div>
