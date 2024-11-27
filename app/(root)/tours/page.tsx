@@ -1,10 +1,23 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { getAllTour } from "@/lib/actions/tour.actions";
+import { ITour } from "@/lib/db/models/tour.model";
 import { Search } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 const ToursPage = () => {
 	// Render tour list
+	const [tours, setTours] = useState<ITour[]>([]);
+
+	useEffect(() => {
+		const getTours = async () => {
+			const allTours = await getAllTour();
+			setTours(allTours);
+		};
+
+		getTours();
+	}, []);
 
 	return (
 		<div className="wrapper py-5">
@@ -38,7 +51,11 @@ const ToursPage = () => {
 				</div>
 
 				{/* Render tour list */}
-				<div></div>
+				<div>
+					{tours.map((tour) => (
+						<div>{tour.title}</div>
+					))}
+				</div>
 			</section>
 		</div>
 	);
