@@ -1,5 +1,6 @@
 "use client";
 
+import TourCard from "@/components/shared/TourCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getAllTour } from "@/lib/actions/tour.actions";
@@ -63,7 +64,9 @@ const ToursPage = () => {
 					{(loading && <div>Loading...</div>) || (
 						<>
 							{tours.map((tour) => (
-								<div key={tour._id}>{tour.title}</div>
+								<div key={tour._id}>
+									<TourCard tour={tour} />
+								</div>
 							))}
 						</>
 					)}

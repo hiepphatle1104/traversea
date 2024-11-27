@@ -29,10 +29,12 @@ const Navbar = () => {
 								<li
 									className={`${
 										isActive && "text-orange-500"
-									} text-base transition-all`}
+									} text-base transition-all `}
 									key={item.label}
 								>
-									<Link href={item.path}>{item.label}</Link>
+									<Link href={item.path} className="uppercase tracking-wider">
+										{item.label}
+									</Link>
 								</li>
 							);
 						})}

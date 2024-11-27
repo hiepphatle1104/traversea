@@ -6,16 +6,17 @@ import Tour, { ITour } from "../db/models/tour.model";
 import User from "../db/models/user.model";
 import { handleError } from "../utils";
 import { revalidatePath } from "next/cache";
+import Location from "../db/models/location.model";
 
 // Get all tour
 export const getAllTour = async () => {
 	try {
 		await connectToDatabase();
-		const allTours = await Tour.find();
+		const allTours = await Tour.find().populate("location");
 
 		return JSON.parse(JSON.stringify(allTours));
 	} catch (error) {
-		handleError(error);
+		console.log(error);
 	}
 };
 
@@ -53,13 +54,19 @@ export const createTour = async ({ userId, tour, path }: CreateTourParams) => {
 		await connectToDatabase();
 
 		const user = await User.findById(userId);
+		const location = await Location.findById(tour.locationId);
+		const depart = await Location.findById(tour.departId);
 
 		if (!user) throw new Error("User not found");
 
+		if (!location) throw new Error("Location not found");
+
+		if (!depart) throw new Error("Departure location not found");
+
 		const newTour = await Tour.create({
 			...tour,
-			location: tour.locationId,
-			depart: tour.departId,
+			location: location,
+			depart: depart,
 			provider: userId,
 		});
 
