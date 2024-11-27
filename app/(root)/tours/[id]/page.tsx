@@ -1,0 +1,212 @@
+import TourDetailHeader from "@/components/shared/TourDetailHeader";
+import { Button } from "@/components/ui/button";
+import { convertImageUrl } from "@/lib/utils";
+import { Clock, Heart, MapPin, Share, Tag } from "lucide-react";
+import Image from "next/image";
+
+const TourDetailPage = () => {
+	const tour = {
+		_id: "testid",
+		title: "Bali - Nusa Penida",
+		location: {
+			_id: "testid",
+			name: "Bali, Indonesia",
+		},
+		category: "Aboard",
+		imagesUrl:
+			"https://plus.unsplash.com/premium_photo-1732564236763-2eaab170bf97?q=80&w=3270&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+
+		price: 100,
+		seats: 10,
+		days: 5,
+		nights: 4,
+		description: "test description",
+		depart: {
+			_id: "testid",
+			name: "TP. Ho Chi Minh",
+		},
+		startDate: "12/12/2024",
+		endDate: "15/12/2024",
+	};
+	return (
+		<div className="wrapper">
+			<section className="wrapper py-5 space-y-5">
+				{/* Header large scale */}
+				<div className="flex flex-col gap-2 max-lg:hidden">
+					{/* Title */}
+					<h1 className="text-4xl">{tour.title}</h1>
+
+					{/* Short detail */}
+					<section className="text-neutral-500 flex justify-between items-center text-lg select-none">
+						{/* Detail */}
+						<div className="flex md:gap-4 max-md:flex-col">
+							{/* Duration */}
+							<section className="detail_icon">
+								<Clock size={18} />
+								<p>
+									{tour.days} days - {tour.nights} nights
+								</p>
+							</section>
+
+							{/* Location */}
+							<section className="detail_icon">
+								<MapPin size={18} />
+								<p>{tour.location.name}</p>
+							</section>
+
+							{/* Tags */}
+							<section className="detail_icon">
+								<Tag size={18} />
+								<p>{tour.category}</p>
+							</section>
+						</div>
+
+						{/* Share & Save */}
+						<div className="flex gap-4 max-lg:hidden">
+							{/* Save */}
+							<section className="detail_icon">
+								<Heart size={18} />
+								<p>Save</p>
+							</section>
+
+							{/* Share */}
+							<section className="detail_icon">
+								<Share size={18} />
+								<p>Share</p>
+							</section>
+						</div>
+					</section>
+				</div>
+
+				{/* Content */}
+				<div className="py-5 flex justify-between gap-10">
+					<section className="h-[350px] w-full">
+						<Image
+							src={convertImageUrl(tour.imagesUrl)}
+							alt="Image"
+							width={900}
+							height={900}
+							className="imageCover "
+						/>
+					</section>
+
+					{/* Details */}
+					<section className="h-[350px] w-1/3 max-lg:hidden border shadow-md rounded-lg px-5 py-5 flex flex-col justify-between gap-5 shrink-0">
+						<div className="flex flex-col justify-between h-full">
+							<div className="flex flex-col gap-3">
+								<section>
+									{/* Title */}
+									<h1 className="text-2xl font-semibold line-clamp-1">
+										{tour.days} days - {tour.nights} nights
+									</h1>
+
+									{/* Location */}
+									<p className="text-neutral-500 text-sm tracking-wider">
+										{tour.location.name}
+									</p>
+								</section>
+
+								<section>
+									{/* Depart */}
+									<p>Depart - {tour.depart.name}</p>
+
+									{/* Start date */}
+									<p>Start: {tour.startDate}</p>
+
+									{/* End date */}
+									<p>End: {tour.endDate}</p>
+								</section>
+							</div>
+
+							{/* Pricing */}
+							<p className="text-lg flex gap-1">
+								$ <span className="text-4xl">{tour.price}</span> USD
+							</p>
+						</div>
+
+						{/* Checkout button */}
+						<Button className="rounded-full w-full shrink-0" size={"lg"}>
+							Book now
+						</Button>
+					</section>
+				</div>
+
+				{/* Header large scale */}
+				<div className="flex flex-col gap-2 lg:hidden">
+					{/* Title */}
+					<h1 className="text-4xl">{tour.title}</h1>
+
+					{/* Short detail */}
+					<section className="text-neutral-500 flex justify-between items-center text-lg select-none">
+						{/* Detail */}
+						<div className="flex md:gap-4 max-md:flex-col">
+							{/* Duration */}
+							<section className="detail_icon">
+								<Clock size={18} />
+								<p>
+									{tour.days} days - {tour.nights} nights
+								</p>
+							</section>
+
+							{/* Location */}
+							<section className="detail_icon">
+								<MapPin size={18} />
+								<p>{tour.location.name}</p>
+							</section>
+
+							{/* Tags */}
+							<section className="detail_icon">
+								<Tag size={18} />
+								<p>{tour.category}</p>
+							</section>
+						</div>
+
+						{/* Share & Save */}
+						<div className="flex gap-4 max-lg:hidden">
+							{/* Save */}
+							<section className="detail_icon">
+								<Heart size={18} />
+								<p>Save</p>
+							</section>
+
+							{/* Share */}
+							<section className="detail_icon">
+								<Share size={18} />
+								<p>Share</p>
+							</section>
+						</div>
+					</section>
+				</div>
+
+				{/* Footer navigation*/}
+				<div>
+					{/* Overview */}
+					{/* <section>
+						<h1 className="text-2xl">Overview</h1>
+						<div>
+							<p>{tour.overview}</p>
+						</div>
+					</section> */}
+
+					{/* Description */}
+					<section>
+						<h1 className="text-2xl">Description</h1>
+						<div>
+							<p>{tour.description}</p>
+						</div>
+					</section>
+
+					{/* Review */}
+					{/* <section>
+						<h1 className="text-2xl">Reviews</h1>
+						<div>
+							<p>test review</p>
+						</div>
+					</section> */}
+				</div>
+			</section>
+		</div>
+	);
+};
+
+export default TourDetailPage;
