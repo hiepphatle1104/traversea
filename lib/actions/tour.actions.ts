@@ -45,7 +45,7 @@ export const getTourByUserId = async (userId: string) => {
 
 		if (!user) throw new Error("User not found");
 
-		const tour = await Tour.find({ provider: user._id });
+		const tour = await Tour.find({ provider: user._id }).populate("provider");
 
 		if (!tour) throw new Error("Tour not found");
 

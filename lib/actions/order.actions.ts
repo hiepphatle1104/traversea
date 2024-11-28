@@ -66,3 +66,27 @@ export const createOrder = async (order: CreateOrderParams) => {
 		handleError(error);
 	}
 };
+
+export const getAllOrders = async () => {
+	try {
+		await connectToDatabase();
+
+		const orders = await Order.find().populate("buyer");
+
+		return JSON.parse(JSON.stringify(orders));
+	} catch (error) {
+		handleError(error);
+	}
+};
+
+export const getOrdersById = async (id: string) => {
+	try {
+		await connectToDatabase();
+
+		const orders = await Order.find({ tour: id }).populate("buyer");
+
+		return JSON.parse(JSON.stringify(orders));
+	} catch (error) {
+		handleError(error);
+	}
+};
