@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getAllTour } from "@/lib/actions/tour.actions";
 import { ITour } from "@/lib/db/models/tour.model";
+import { useUser } from "@clerk/nextjs";
 import { Search } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -13,7 +14,6 @@ const ToursPage = () => {
 	// Render tour list
 	const [tours, setTours] = useState<ITour[]>([]);
 	const [loading, setLoading] = useState<boolean>(true);
-
 	useEffect(() => {
 		const getTours = async () => {
 			// Add loading state
@@ -65,7 +65,10 @@ const ToursPage = () => {
 						<>
 							<div className="w-full flex gap-5 flex-wrap justify-center items-center">
 								{tours.map((tour) => (
-									<TourCard key={tour._id} tour={tour} />
+									<TourCard
+										key={tour._id}
+										tour={tour}
+									/>
 								))}
 							</div>
 						</>

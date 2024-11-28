@@ -41,7 +41,11 @@ export const getTourByUserId = async (userId: string) => {
 	try {
 		await connectToDatabase();
 
-		const tour = await Tour.find({ provider: userId });
+		const user = await User.findOne({ clerkId: userId });
+
+		if (!user) throw new Error("User not found");
+
+		const tour = await Tour.find({ provider: user._id });
 
 		if (!tour) throw new Error("Tour not found");
 

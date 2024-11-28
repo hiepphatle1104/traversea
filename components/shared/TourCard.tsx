@@ -1,3 +1,5 @@
+"use client";
+
 import { ITour } from "@/lib/db/models/tour.model";
 import {
 	Card,
@@ -38,9 +40,17 @@ const TourCard = ({ tour }: { tour: ITour }) => {
 			<CardFooter>
 				<div className="w-full flex justify-between items-center">
 					<span className="text-lg font-semibold">${tour.price}</span>
-					<Button variant={"outline"} size={"default"}>
-						<Link href={`/tours/${tour._id}`}>Explore</Link>
-					</Button>
+					<div className="flex gap-2 items-center justify-center">
+						<Button size={"lg"} asChild>
+							<Link href={`/tours/${tour._id}`}>View</Link>
+						</Button>
+						<Link
+							href={`/profile/${tour._id}`}
+							className="bg-secondary px-3 py-2 border shadow-sm rounded-lg"
+						>
+							Orders
+						</Link>
+					</div>
 				</div>
 			</CardFooter>
 		</Card>
