@@ -1,3 +1,5 @@
+"use server";
+
 import { TourForm } from "@/components/shared/TourForm";
 import { getUser } from "@/lib/actions/user.actions";
 import { auth } from "@clerk/nextjs/server";
@@ -13,7 +15,7 @@ const TourCreatePage = async () => {
 
 	if (!user) return <div>Something went wrong</div>;
 	return (
-		<div className="wrapper py-5">
+		<div className="wrapper py-5 w-full">
 			<section className="wrapper py-5">
 				{/* Header */}
 				<div className="w-full text-center">

@@ -1,3 +1,5 @@
+"use server";
+
 import { TourForm } from "@/components/shared/TourForm";
 import { getTourById } from "@/lib/actions/tour.actions";
 import { getUser } from "@/lib/actions/user.actions";
@@ -25,7 +27,7 @@ const TourUpdatePage = async ({
 	const tour = await getTourById(id);
 
 	return (
-		<div className="wrapper py-5">
+		<div className="wrapper py-5 w-full">
 			<section className="wrapper py-5">
 				{/* Header */}
 				<div className="w-full text-center">

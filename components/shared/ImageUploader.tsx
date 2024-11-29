@@ -26,6 +26,7 @@ const ImageUploader = ({
 							width={900}
 							height={900}
 							className="w-full h-full object-contain"
+							priority
 						/>
 					</div>
 				)) || (

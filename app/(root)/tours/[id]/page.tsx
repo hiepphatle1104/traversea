@@ -15,6 +15,7 @@ const TourDetailPage = async ({
 	params: Promise<{ id: string }>;
 }) => {
 	const { id } = await params;
+
 	const { sessionClaims } = await auth();
 
 	const userId = sessionClaims?.userId as string;
@@ -23,7 +24,7 @@ const TourDetailPage = async ({
 
 	const tour = await getTourById(id);
 	return (
-		<div className="wrapper">
+		<div className="wrapper w-full">
 			<section className="wrapper py-5 space-y-5">
 				{/* Header large scale */}
 				<div className="flex flex-col gap-2 max-lg:hidden">
@@ -84,9 +85,10 @@ const TourDetailPage = async ({
 						<Image
 							src={convertImageUrl(tour.imageUrl)}
 							alt="Image"
-							width={900}
-							height={900}
+							width={800}
+							height={800}
 							className="imageCover rounded-lg"
+							priority
 						/>
 					</section>
 

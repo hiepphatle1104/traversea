@@ -45,8 +45,8 @@ export function TourForm({ userId, type, tour, tourId }: TourFormProps) {
 		type === "update"
 			? {
 					...tour,
-					location: tour?.location._id,
-					depart: tour?.depart._id,
+					locationId: tour?.location._id,
+					departId: tour?.depart._id,
 					startDate: new Date(tour?.startDate!),
 					endDate: new Date(tour?.endDate!),
 			  }

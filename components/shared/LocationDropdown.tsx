@@ -54,7 +54,7 @@ const LocationDropdown = ({
 				<SelectValue placeholder="Choose location" />
 			</SelectTrigger>
 			<SelectContent>
-				{locations.map((location) => (
+				{locations.map((location: ILocation) => (
 					<SelectItem key={location._id} value={location._id}>
 						{location.name}
 					</SelectItem>

@@ -50,7 +50,7 @@ const TourOrders = async ({ params }: { params: Promise<{ id: string }> }) => {
 				</div>
 
 				{/* Table */}
-				<div className="w-full min-h-screen p-4 border rounded-lg">
+				<div className="w-full p-4 border rounded-lg">
 					<Table>
 						<TableCaption>A list of your tour recent orders</TableCaption>
 						<TableHeader className="select-none">
