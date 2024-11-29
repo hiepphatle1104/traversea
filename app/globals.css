@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+.spinner {
+	width: 48px;
+	height: 48px;
+	border-radius: 50%;
+	border: 8px solid;
+	border-color: #dbdcef;
+	border-right-color: #474bff;
+	animation: spinner-d3wgkg 1s infinite linear;
+}
+
+@keyframes spinner-d3wgkg {
+	to {
+		transform: rotate(1turn);
+	}
+}
+
 .wrapper {
 	@apply max-w-7xl mx-auto px-4 md:px-6 lg:px-8 xl:px-10;
 }

@@ -8,9 +8,9 @@ export default function RootLayout({
 }>) {
 	return (
 		<div className="min-h-screen flex flex-col justify-between">
-			<section>
+			<section className="flex flex-col grow ">
 				<Navbar />
-				<main>{children}</main>
+				<main className="grow flex flex-col w-full">{children}</main>
 			</section>
 			<Footer />
 		</div>

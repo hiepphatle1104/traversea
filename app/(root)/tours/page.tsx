@@ -5,10 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getAllTour } from "@/lib/actions/tour.actions";
 import { ITour } from "@/lib/db/models/tour.model";
-import { useUser } from "@clerk/nextjs";
 import { Search } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 
 const ToursPage = async () => {
 	// Render tour list
@@ -31,7 +29,7 @@ const ToursPage = async () => {
 	const tours = await getAllTour();
 
 	return (
-		<div className="wrapper py-5">
+		<div className="wrapper py-5 w-full">
 			<section className="wrapper py-5 space-y-5">
 				{/* Title */}
 				<div className="w-full text-center">
