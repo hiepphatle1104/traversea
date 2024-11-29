@@ -1,3 +1,4 @@
+import AuthenticationError from "@/components/shared/AuthenticationError";
 import TourCard from "@/components/shared/TourCard";
 import { getTourByUserId } from "@/lib/actions/tour.actions";
 import { ITour } from "@/lib/db/models/tour.model";
@@ -10,7 +11,7 @@ const Profile = async () => {
 	const clerkId = sessionClaims?.userId as string;
 
 	if (!clerkId) {
-		return <div>Not logged in</div>;
+		return <AuthenticationError />;
 	}
 
 	const tours = await getTourByUserId(clerkId);
