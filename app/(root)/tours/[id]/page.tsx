@@ -1,3 +1,5 @@
+"use server";
+
 import CheckoutButton from "@/components/shared/CheckoutButton";
 import { Button } from "@/components/ui/button";
 import { getTourById } from "@/lib/actions/tour.actions";

@@ -1,3 +1,4 @@
+"use client";
 import { useEffect } from "react";
 import { Button } from "../ui/button";
 import { ITour } from "@/lib/db/models/tour.model";
