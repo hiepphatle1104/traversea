@@ -1,6 +1,3 @@
-import Link from "next/link";
-import { Button } from "../ui/button";
-
 const AuthenticationError = () => {
 	return (
 		<div className="wrapper flex items-center justify-center py-20">
@@ -11,9 +8,6 @@ const AuthenticationError = () => {
 						Please sign in to view this page
 					</p>
 				</div>
-				<Button asChild size={"lg"}>
-					<Link href={"/sign-in"}>Sign in</Link>
-				</Button>
 			</section>
 		</div>
 	);

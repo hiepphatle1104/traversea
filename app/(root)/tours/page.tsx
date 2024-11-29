@@ -1,4 +1,4 @@
-"use client";
+"use server";
 
 import TourCard from "@/components/shared/TourCard";
 import { Button } from "@/components/ui/button";
@@ -10,23 +10,25 @@ import { Search } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-const ToursPage = () => {
+const ToursPage = async () => {
 	// Render tour list
-	const [tours, setTours] = useState<ITour[]>([]);
-	const [loading, setLoading] = useState<boolean>(true);
-	useEffect(() => {
-		const getTours = async () => {
-			// Add loading state
-			setLoading(true);
+	// const [tours, setTours] = useState<ITour[]>([]);
+	// const [loading, setLoading] = useState<boolean>(true);
+	// useEffect(() => {
+	// 	const getTours = async () => {
+	// 		// Add loading state
+	// 		setLoading(true);
 
-			const allTours = await getAllTour();
-			setTours(allTours);
+	// 		const allTours = await getAllTour();
+	// 		setTours(allTours);
 
-			setLoading(false);
-		};
+	// 		setLoading(false);
+	// 	};
 
-		getTours();
-	}, []);
+	// 	getTours();
+	// }, []);
+
+	const tours = await getAllTour();
 
 	return (
 		<div className="wrapper py-5">
@@ -60,20 +62,22 @@ const ToursPage = () => {
 				</div>
 
 				{/* Render tour list */}
-				<div>
+				<div className="w-full flex gap-5 flex-wrap justify-center items-center">
+					{tours.map((tour: ITour) => (
+						<TourCard key={tour._id} tour={tour} />
+					))}
+				</div>
+				{/* <div>
 					{(loading && <div>Loading...</div>) || (
 						<>
 							<div className="w-full flex gap-5 flex-wrap justify-center items-center">
 								{tours.map((tour) => (
-									<TourCard
-										key={tour._id}
-										tour={tour}
-									/>
+									<TourCard key={tour._id} tour={tour} />
 								))}
 							</div>
 						</>
 					)}
-				</div>
+				</div> */}
 			</section>
 		</div>
 	);
