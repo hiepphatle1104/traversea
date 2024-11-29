@@ -9,6 +9,20 @@ import { revalidatePath } from "next/cache";
 import Location from "../db/models/location.model";
 import Depart from "../db/models/depart.model";
 
+export const getTourByName = async (search: string) => {
+	try {
+		await connectToDatabase();
+
+		const tours = await Tour.find({
+			title: { $regex: search, $options: "i" },
+		}).populate("location");
+
+		return JSON.parse(JSON.stringify(tours));
+	} catch (error) {
+		handleError(error);
+	}
+};
+
 // Get all tour
 export const getAllTour = async () => {
 	try {

@@ -1,32 +1,33 @@
-"use server";
+"use client";
 
 import TourCard from "@/components/shared/TourCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { getAllTour } from "@/lib/actions/tour.actions";
+import { getAllTour, getTourByName } from "@/lib/actions/tour.actions";
 import { ITour } from "@/lib/db/models/tour.model";
 import { Search } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-const ToursPage = async () => {
-	// Render tour list
-	// const [tours, setTours] = useState<ITour[]>([]);
-	// const [loading, setLoading] = useState<boolean>(true);
-	// useEffect(() => {
-	// 	const getTours = async () => {
-	// 		// Add loading state
-	// 		setLoading(true);
+const ToursPage = () => {
+	const [search, setSearch] = useState<string>("");
+	const [tours, setTours] = useState<ITour[]>([]);
 
-	// 		const allTours = await getAllTour();
-	// 		setTours(allTours);
+	useEffect(() => {
+		const getTours = async () => {
+			if (search === "") {
+				const allTours = await getAllTour();
+				setTours(allTours);
+			} else {
+				const searchTours = await getTourByName(search);
+				setTours(searchTours);
+			}
+		};
 
-	// 		setLoading(false);
-	// 	};
+		getTours();
+	}, [search]);
 
-	// 	getTours();
-	// }, []);
-
-	const tours = await getAllTour();
+	// const tours = await getAllTour();
 
 	return (
 		<div className="wrapper py-5 w-full">
@@ -43,13 +44,12 @@ const ToursPage = async () => {
 				<div className="w-full flex justify-between items-center max-md:flex-col gap-5">
 					{/* Searchbox */}
 					<section className="flex items-center w-96 border rounded-lg">
-						<Button variant={"secondary"} className="border-r" type="submit">
-							<Search size={20} className="text-neutral-500 cursor-pointer" />
-						</Button>
 						<Input
 							type="text"
 							placeholder="Search for tours"
 							className="w-full border-none shadow-none focus-visible:ring-0"
+							onChange={(e) => setSearch(e.target.value)}
+							value={search}
 						/>
 					</section>
 
@@ -65,17 +65,6 @@ const ToursPage = async () => {
 						<TourCard key={tour._id} tour={tour} />
 					))}
 				</div>
-				{/* <div>
-					{(loading && <div>Loading...</div>) || (
-						<>
-							<div className="w-full flex gap-5 flex-wrap justify-center items-center">
-								{tours.map((tour) => (
-									<TourCard key={tour._id} tour={tour} />
-								))}
-							</div>
-						</>
-					)}
-				</div> */}
 			</section>
 		</div>
 	);
