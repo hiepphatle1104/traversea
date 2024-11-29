@@ -1,9 +1,20 @@
-import React from 'react'
+"use server";
 
-const BestTours = () => {
-  return (
-    <div>BestTours</div>
-  )
-}
+import { getAllTour } from "@/lib/actions/tour.actions";
+import { ITour } from "@/lib/db/models/tour.model";
+import TourCard from "../shared/TourCard";
 
-export default BestTours
+const OurTours = async () => {
+	const tours = await getAllTour();
+
+	if (!tours) return <div>Loading...</div>;
+	return (
+		<div className="flex flex-wrap gap-4 items-center justify-center">
+			{tours.map((tour: ITour) => (
+				<TourCard key={tour._id} tour={tour} />
+			))}
+		</div>
+	);
+};
+
+export default OurTours;

@@ -1,3 +1,4 @@
+import OurTours from "@/components/home/BestTours";
 import Features from "@/components/home/Features";
 import Hero from "@/components/home/Hero";
 
@@ -11,21 +12,24 @@ export default function Home() {
 			<Features />
 
 			{/* Popular destinations */}
-			<section className="wrapper">
+			{/* <section className="wrapper">
 				<div>
 					<h1 className="text-3xl font-semibold">Popular destinations</h1>
 					<p className="text-base text-neutral-500">
 						Explore the most loved places around the world
 					</p>
 				</div>
-			</section>
+			</section> */}
 
-			{/* Our best tours */}
-			<section className="wrapper">
-				<h1 className="text-3xl font-semibold">Explore our best tours</h1>
-				<p className="text-base text-neutral-500">
-					Carefully designed travel experiences just for you
-				</p>
+			{/* Our tours */}
+			<section className="wrapper space-y-5">
+				<div>
+					<h1 className="text-3xl font-semibold">Explore our tours</h1>
+					<p className="text-base text-neutral-500">
+						Carefully designed travel experiences just for you
+					</p>
+				</div>
+				<OurTours />
 			</section>
 		</div>
 	);
