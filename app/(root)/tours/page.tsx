@@ -30,8 +30,6 @@ const ToursPage = () => {
 		getTours();
 	}, [search]);
 
-	// const tours = await getAllTour();
-
 	return (
 		<div className="wrapper py-5 w-full flex grow">
 			<section className="wrapper py-5 space-y-5 w-full flex flex-col grow">

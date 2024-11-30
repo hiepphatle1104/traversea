@@ -1,6 +1,5 @@
 "use server";
 
-import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import { Button } from "@/components/ui/button";
 import {
 	Table,
@@ -27,13 +26,7 @@ const TourOrders = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const { id } = await params;
 	const orders = await getOrdersById(id);
 
-	if (!orders) {
-		return (
-			<div>
-				<LoadingSkeleton />
-			</div>
-		);
-	}
+	if (orders.length === 0) throw new Error("Orders not found");
 
 	return (
 		<div className="wrapper py-5">

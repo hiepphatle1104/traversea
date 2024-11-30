@@ -2,9 +2,7 @@
 
 import { TourForm } from "@/components/shared/TourForm";
 import { getTourById } from "@/lib/actions/tour.actions";
-import { getUser } from "@/lib/actions/user.actions";
 import { auth } from "@clerk/nextjs/server";
-import React from "react";
 
 const TourUpdatePage = async ({
 	params,
@@ -13,16 +11,9 @@ const TourUpdatePage = async ({
 }) => {
 	const { id } = await params;
 
-	if (!id) return <div>Something went wrong</div>;
-
 	const { sessionClaims } = await auth();
-	const clerkId = sessionClaims?.userId as string;
 
-	if (!clerkId) return <div>Something went wrong</div>;
-
-	const user = await getUser(clerkId);
-
-	if (!user) return <div>Something went wrong</div>;
+	const userId = sessionClaims?.publicMetadata?.userId as string;
 
 	const tour = await getTourById(id);
 
@@ -39,7 +30,7 @@ const TourUpdatePage = async ({
 
 				{/* Content */}
 				<section>
-					<TourForm userId={user._id} type="update" tour={tour} tourId={id} />
+					<TourForm userId={userId} type="update" tour={tour} tourId={id} />
 				</section>
 			</section>
 		</div>

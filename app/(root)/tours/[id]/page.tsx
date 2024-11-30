@@ -23,6 +23,11 @@ const TourDetailPage = async ({
 	const userId = sessionClaims?.publicMetadata?.userId as string;
 
 	const tour = await getTourById(id);
+
+	if (!tour) {
+		throw new Error("Tour not found");
+	}
+
 	return (
 		<div className="wrapper w-full">
 			<section className="wrapper py-5 space-y-5">

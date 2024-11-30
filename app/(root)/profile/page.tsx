@@ -6,7 +6,7 @@ import { getTourByUserId } from "@/lib/actions/tour.actions";
 import { ITour } from "@/lib/db/models/tour.model";
 import { useUser } from "@clerk/nextjs";
 import { useState, useEffect } from "react";
-import Loading from "./loading";
+import Loading from "../loading";
 
 const Profile = () => {
 	const [loading, setLoading] = useState<boolean>(true);

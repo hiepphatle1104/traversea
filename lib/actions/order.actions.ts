@@ -85,6 +85,8 @@ export const getOrdersById = async (id: string) => {
 
 		const orders = await Order.find({ tour: id }).populate("buyer");
 
+		if (!orders) throw new Error("Orders not found");
+
 		return JSON.parse(JSON.stringify(orders));
 	} catch (error) {
 		handleError(error);
