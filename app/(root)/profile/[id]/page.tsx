@@ -1,5 +1,6 @@
 "use server";
 
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import { Button } from "@/components/ui/button";
 import {
 	Table,
@@ -25,6 +26,14 @@ import Link from "next/link";
 const TourOrders = async ({ params }: { params: Promise<{ id: string }> }) => {
 	const { id } = await params;
 	const orders = await getOrdersById(id);
+
+	if (!orders) {
+		return (
+			<div>
+				<LoadingSkeleton />
+			</div>
+		);
+	}
 
 	return (
 		<div className="wrapper py-5">

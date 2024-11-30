@@ -1,20 +1,59 @@
+"use client";
+
 import AuthenticationError from "@/components/shared/AuthenticationError";
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import TourCard from "@/components/shared/TourCard";
 import { getTourByUserId } from "@/lib/actions/tour.actions";
 import { ITour } from "@/lib/db/models/tour.model";
-import { auth } from "@clerk/nextjs/server";
-import React from "react";
+import { useUser } from "@clerk/nextjs";
+import React, { useEffect, useState } from "react";
 
-const Profile = async () => {
-	const { sessionClaims } = await auth();
+const Profile = () => {
+	const [loading, setLoading] = useState<boolean>(true);
+	const [tours, setTours] = useState<ITour[]>([]);
+	const [error, setError] = useState<string | null>(null);
+	const { user } = useUser();
 
-	const clerkId = sessionClaims?.userId as string;
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setLoading(false);
+			if (tours.length === 0) {
+				setError("Authentication timed out. Please try again.");
+			}
+		}, 5 * 1000);
 
-	if (!clerkId) {
-		return <AuthenticationError />;
+		const getTours = async () => {
+			try {
+				if (user) {
+					const userId = user.publicMetadata.userId as string;
+
+					const data = await getTourByUserId(userId);
+
+					setTours(data);
+					clearTimeout(timer);
+					setLoading(false);
+				}
+			} catch (err: any) {
+				setError(err.message || "An unexpected error occurred");
+				setLoading(false);
+			}
+		};
+
+		getTours();
+
+		return () => clearTimeout(timer);
+	}, [user]);
+
+	if (loading)
+		return (
+			<div className="flex grow">
+				<LoadingSkeleton />
+			</div>
+		);
+
+	if (error) {
+		return <AuthenticationError error={error} />;
 	}
-
-	const tours = await getTourByUserId(clerkId);
 
 	return (
 		<div className="wrapper py-5">
@@ -26,7 +65,7 @@ const Profile = async () => {
 
 				{/* Render tours */}
 				<section>
-					{(tours.length === 0 && <div>No tours</div>) || (
+					{(tours.length === 0 && <div>You dont have no tours</div>) || (
 						<div className="flex gap-4 flex-wrap justify-center items-center">
 							{tours.map((tour: ITour) => (
 								<TourCard key={tour._id} tour={tour} />

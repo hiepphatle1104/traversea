@@ -20,7 +20,13 @@ const Hero = () => {
 						<Link href={"/tours"}>Explore now</Link>
 					</Button>
 				</div>
-				<Image src="/hero.svg" alt="Hero image" width={450} height={450} />
+				<Image
+					src="/hero.svg"
+					alt="Hero image"
+					width={450}
+					height={450}
+					priority
+				/>
 			</section>
 		</>
 	);
