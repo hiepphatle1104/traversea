@@ -1,5 +1,9 @@
 import { ITour } from "@/lib/db/models/tour.model";
 
+export interface publicMetadataProps {
+	userId: string;
+}
+
 export type CreateUserParams = {
 	clerkId: string;
 	firstName: string;

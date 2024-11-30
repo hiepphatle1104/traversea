@@ -3,8 +3,8 @@
 import CheckoutButton from "@/components/shared/CheckoutButton";
 import { Button } from "@/components/ui/button";
 import { getTourById } from "@/lib/actions/tour.actions";
-import { getUser } from "@/lib/actions/user.actions";
 import { convertImageUrl } from "@/lib/utils";
+import { publicMetadataProps } from "@/types";
 import { auth } from "@clerk/nextjs/server";
 import { format } from "date-fns";
 import { Clock, Heart, MapPin, Share, Tag } from "lucide-react";
@@ -20,9 +20,7 @@ const TourDetailPage = async ({
 
 	const { sessionClaims } = await auth();
 
-	const userId = sessionClaims?.userId as string;
-
-	const user = await getUser(userId);
+	const userId = sessionClaims?.publicMetadata?.userId as string;
 
 	const tour = await getTourById(id);
 	return (
@@ -72,7 +70,7 @@ const TourDetailPage = async ({
 								<p>Share</p>
 							</section>
 
-							{user?._id === tour.provider && (
+							{userId === tour.provider && (
 								<Button variant={"outline"} size={"sm"} asChild>
 									<Link href={`/tours/${tour._id}/update`}>Update</Link>
 								</Button>

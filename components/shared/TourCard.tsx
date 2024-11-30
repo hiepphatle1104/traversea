@@ -55,6 +55,7 @@ const TourCard = ({ tour }: { tour: ITour }) => {
 						width={900}
 						height={900}
 						className="imageCover rounded-lg"
+						priority
 					/>
 				</div>
 			</CardContent>

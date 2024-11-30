@@ -1,12 +1,12 @@
 "use client";
 
 import AuthenticationError from "@/components/shared/AuthenticationError";
-import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import TourCard from "@/components/shared/TourCard";
 import { getTourByUserId } from "@/lib/actions/tour.actions";
 import { ITour } from "@/lib/db/models/tour.model";
 import { useUser } from "@clerk/nextjs";
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import Loading from "./loading";
 
 const Profile = () => {
 	const [loading, setLoading] = useState<boolean>(true);
@@ -47,7 +47,7 @@ const Profile = () => {
 	if (loading)
 		return (
 			<div className="flex grow">
-				<LoadingSkeleton />
+				<Loading />
 			</div>
 		);
 

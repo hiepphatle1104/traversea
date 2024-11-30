@@ -11,8 +11,16 @@ const isPublicRoute = createRouteMatcher([
 	"/api/edgestore(.*)",
 ]);
 
+const isAuthRoute = createRouteMatcher([
+	"/tours/create",
+	"/tours/(.*)/update",
+	"/profile/(.*)",
+]);
+
 export default clerkMiddleware(async (auth, request) => {
 	if (!isPublicRoute(request)) {
+		await auth.protect();
+	} else if (isAuthRoute(request)) {
 		await auth.protect();
 	}
 });

@@ -1,19 +1,13 @@
 "use server";
 
 import { TourForm } from "@/components/shared/TourForm";
-import { getUser } from "@/lib/actions/user.actions";
 import { auth } from "@clerk/nextjs/server";
 
 const TourCreatePage = async () => {
 	const { sessionClaims } = await auth();
 
-	const clerkId = sessionClaims?.userId as string;
+	const userId = sessionClaims?.publicMetadata?.userId as string;
 
-	if (!clerkId) return <div>Something went wrong</div>;
-
-	const user = await getUser(clerkId);
-
-	if (!user) return <div>Something went wrong</div>;
 	return (
 		<div className="wrapper py-5 w-full">
 			<section className="wrapper py-5">
@@ -26,7 +20,7 @@ const TourCreatePage = async () => {
 				</div>
 
 				{/* Content */}
-				<TourForm userId={user._id} type="create" />
+				<TourForm userId={userId} type="create" />
 			</section>
 		</div>
 	);
