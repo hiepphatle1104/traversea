@@ -1,20 +1,22 @@
 "use client";
 
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton";
 import TourCard from "@/components/shared/TourCard";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { getAllTour, getTourByName } from "@/lib/actions/tour.actions";
 import { ITour } from "@/lib/db/models/tour.model";
-import { Search } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const ToursPage = () => {
 	const [search, setSearch] = useState<string>("");
 	const [tours, setTours] = useState<ITour[]>([]);
+	const [loading, setLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		const getTours = async () => {
+			setLoading(true);
 			if (search === "") {
 				const allTours = await getAllTour();
 				setTours(allTours);
@@ -22,16 +24,17 @@ const ToursPage = () => {
 				const searchTours = await getTourByName(search);
 				setTours(searchTours);
 			}
-		};
 
+			setLoading(false);
+		};
 		getTours();
 	}, [search]);
 
 	// const tours = await getAllTour();
 
 	return (
-		<div className="wrapper py-5 w-full">
-			<section className="wrapper py-5 space-y-5">
+		<div className="wrapper py-5 w-full flex grow">
+			<section className="wrapper py-5 space-y-5 w-full flex flex-col grow">
 				{/* Title */}
 				<div className="w-full text-center">
 					<h1 className="text-4xl font-semibold">Our tours</h1>
@@ -60,10 +63,15 @@ const ToursPage = () => {
 				</div>
 
 				{/* Render tour list */}
-				<div className="w-full flex gap-5 flex-wrap justify-center items-center">
-					{tours.map((tour: ITour) => (
-						<TourCard key={tour._id} tour={tour} />
-					))}
+				{/* <div className="w-full flex gap-5 flex-wrap justify-center items-center test"> */}
+				<div className="flex grow w-full gap-5 flex-wrap justify-center items-center">
+					{(!loading && (
+						<>
+							{tours.map((tour: ITour) => (
+								<TourCard key={tour._id} tour={tour} />
+							))}
+						</>
+					)) || <LoadingSkeleton />}
 				</div>
 			</section>
 		</div>
